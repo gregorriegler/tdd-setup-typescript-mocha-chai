@@ -1,0 +1,22 @@
+{
+  "name": "tdd-setup",
+  "version": "1.0.0",
+  "description": "simplistic tdd setup for typescript with mocha/chai",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --require ts-node/register test/*.ts"
+  },
+  "author": "gregor riegler",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/core-js": "^2.5.1",
+    "@types/mocha": "^5.2.7",
+    "@types/node": "^12.0.8",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.2"
+  }
+}
