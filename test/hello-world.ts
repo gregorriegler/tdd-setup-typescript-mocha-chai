@@ -32,13 +32,15 @@ describe('oddWords', function () {
             }
         }
 
-        function recursive(input: Input, output: Output) {
+        function recursive(input: Input, output: Output): string {
             let char = input.read()
 
-            if (char != '.') {
-                recursive(input, output);
-                output.write(char)
+            if (char == '.') {
+                return char;
             }
+            let finalChar:string = recursive(input, output);
+            output.write(char)
+            return finalChar
         }
 
         function oddWords(text: string) {
@@ -46,8 +48,8 @@ describe('oddWords', function () {
 
             let output = createOutput()
 
-            recursive(input, output);
-            output.write(".")
+            let finalChar = recursive(input, output);
+            output.write(finalChar)
             return output.get()
         }
 
