@@ -40,42 +40,48 @@ describe('oddWords', function () {
             return endOfSentence(char) || char == ' ';
         }
 
-        function reverseWord(input: Input, output: Output): string {
+        function reverseWord(input: Input, output: Output, depth: number): string {
             let char = input.read()
             if (endOfWord(char)) {
+                if(depth == 0) return ''
                 return char;
             }
-            let finalChar: string = reverseWord(input, output);
+            let finalChar: string = reverseWord(input, output, ++depth);
             output.write(char)
             return finalChar
         }
 
-        function straightWord(input: Input, output: Output): string {
+        function straightWord(input: Input, output: Output, depth: number): string {
             let char = input.read()
             if (endOfWord(char)) {
+                if(depth == 0) return ''
                 return char;
             }
             output.write(char)
-            return straightWord(input, output)
+            return straightWord(input, output, ++depth)
         }
 
         function oddWords(text: string) {
             let input = createInput(text)
             let output = createOutput()
 
-            for (let i = 0, char = ''; !endOfSentence(char); i++) {
+            for (let i = 0, char = ''; !endOfSentence(char);) {
+
                 if (i % 2 == 1) {
-                    char = reverseWord(input, output);
+                    char = reverseWord(input, output, 0);
                 } else {
-                    char = straightWord(input, output);
+                    char = straightWord(input, output, 0);
                 }
+
+                if(char != '') i++
                 output.write(char)
             }
 
             return output.get()
         }
 
-        expect(oddWords("abc cde.")).to.equal("abc edc.")
         expect(oddWords("ab.")).to.equal("ab.")
+        expect(oddWords("abc cde.")).to.equal("abc edc.")
+        expect(oddWords("abc   cde.")).to.equal("abc edc.")
     });
 });
