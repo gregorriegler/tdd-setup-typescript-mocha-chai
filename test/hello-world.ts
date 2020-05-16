@@ -38,9 +38,19 @@ describe('oddWords', function () {
             if (char == '.' || char == ' ') {
                 return char;
             }
-            let finalChar:string = reverseWord(input, output);
+            let finalChar: string = reverseWord(input, output);
             output.write(char)
             return finalChar
+        }
+
+        function straightWord(input: Input, output: Output): string {
+            let char = input.read()
+
+            if (char == '.' || char == ' ') {
+                return char;
+            }
+            output.write(char)
+            return straightWord(input, output)
         }
 
         function oddWords(text: string) {
@@ -48,14 +58,18 @@ describe('oddWords', function () {
             let output = createOutput()
 
             for (let i = 0, char = ''; char != '.'; i++) {
-                char = reverseWord(input, output);
+                if (i % 2 == 1) {
+                    char = reverseWord(input, output);
+                } else {
+                    char = straightWord(input, output);
+                }
                 output.write(char)
             }
 
             return output.get()
         }
 
-        expect(oddWords("ab cd.")).to.equal("ba dc.")
-        expect(oddWords("ab.")).to.equal("ba.")
+        expect(oddWords("ab cd.")).to.equal("ab dc.")
+        expect(oddWords("ab.")).to.equal("ab.")
     });
 });
