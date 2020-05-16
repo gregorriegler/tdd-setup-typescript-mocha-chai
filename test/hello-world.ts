@@ -11,6 +11,10 @@ describe('oddWords', function () {
             get: () => string;
         }
 
+        enum Direction {
+            Reverse = 1
+        }
+
         function createInput(text: string): Input {
             let index = 0
             return {
@@ -40,25 +44,22 @@ describe('oddWords', function () {
             return endOfSentence(char) || char == ' ';
         }
 
-        function reverseWord(input: Input, output: Output, depth: number): string {
+        function word(input: Input, output: Output, direction: Direction, depth: number): string {
             let char = input.read()
-            if (endOfWord(char)) {
-                if(depth == 0) return ''
-                return char;
-            }
-            let finalChar: string = reverseWord(input, output, ++depth);
-            output.write(char)
-            return finalChar
-        }
 
-        function straightWord(input: Input, output: Output, depth: number): string {
-            let char = input.read()
             if (endOfWord(char)) {
-                if(depth == 0) return ''
+                if (depth == 0) return ''
                 return char;
             }
+
+            if (direction == Direction.Reverse) {
+                let finalChar: string = word(input, output, direction, ++depth);
+                output.write(char)
+                return finalChar
+            }
+
             output.write(char)
-            return straightWord(input, output, ++depth)
+            return word(input, output, direction, ++depth)
         }
 
         function oddWords(text: string) {
@@ -66,15 +67,13 @@ describe('oddWords', function () {
             let output = createOutput()
 
             for (let i = 0, char = ''; !endOfSentence(char);) {
+                char = word(input, output, i % 2, 0);
 
-                if (i % 2 == 1) {
-                    char = reverseWord(input, output, 0);
-                } else {
-                    char = straightWord(input, output, 0);
+                if (char != '') {
+                    i++
+                    output.write(char)
                 }
 
-                if(char != '') i++
-                output.write(char)
             }
 
             return output.get()
