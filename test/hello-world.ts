@@ -1,7 +1,12 @@
 import {expect} from "chai";
 
-describe('hello', function () {
+describe('oddWords', function () {
     it('world', function () {
-        expect('hello world').to.equal('hello world')
+
+        function oddWords(text: string) {
+            return "a"
+        }
+
+        expect(oddWords("a")).to.equal("a")
     });
 });
