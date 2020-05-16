@@ -73,7 +73,6 @@ describe('oddWords', function () {
                     i++
                     output.write(char)
                 }
-
             }
 
             return output.get()
