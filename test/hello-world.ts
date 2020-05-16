@@ -32,27 +32,30 @@ describe('oddWords', function () {
             }
         }
 
-        function recursive(input: Input, output: Output): string {
+        function reverseWord(input: Input, output: Output): string {
             let char = input.read()
 
-            if (char == '.') {
+            if (char == '.' || char == ' ') {
                 return char;
             }
-            let finalChar:string = recursive(input, output);
+            let finalChar:string = reverseWord(input, output);
             output.write(char)
             return finalChar
         }
 
         function oddWords(text: string) {
             let input = createInput(text)
-
             let output = createOutput()
 
-            let finalChar = recursive(input, output);
-            output.write(finalChar)
+            for (let i = 0, char = ''; char != '.'; i++) {
+                char = reverseWord(input, output);
+                output.write(char)
+            }
+
             return output.get()
         }
 
+        expect(oddWords("ab cd.")).to.equal("ba dc.")
         expect(oddWords("ab.")).to.equal("ba.")
     });
 });
